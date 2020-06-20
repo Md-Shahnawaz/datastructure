@@ -1,11 +1,9 @@
 package com.leetcode.medium.hashmap;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class ThreeSum {
 
@@ -18,46 +16,37 @@ public class ThreeSum {
     }
 
     public static List<List<Integer>> threeSum(int[] nums) {
-
-        Map<Integer, Integer> countGroup = new HashMap<>();
-
-        for (int i = 0; i < nums.length; i++) {
-            countGroup.putIfAbsent(nums[i], 0);
-            countGroup.computeIfPresent(nums[i], (k, v) -> v + 1);
+        List<List<Integer>> result = new LinkedList<>();
+        if(nums == null || nums.length < 3) {
+            return result;
         }
-
-        Set<List<Integer>> resultantList = new HashSet<>();
-
-        for (int i = 0; i < nums.length; i++) {
-
-            int v1 = nums[i];
-            if(countGroup.get(v1) <= 0) continue;
-            countGroup.computeIfPresent(v1, (k, v) -> v - 1);
-
-            for (int j = i + 1; j < nums.length; j++) {
-
-                int v2 = nums[j];
-                if(countGroup.get(v2) <= 0) continue;
-                countGroup.computeIfPresent(v2, (k, v) -> v - 1);
-
-                int key = -(v1 + v2);
-                if(countGroup.containsKey(key) && countGroup.get(key) > 0){
-
-                    countGroup.computeIfPresent(key, (k, v) -> v - 1);
-
-                    List<Integer> intermediateList = new ArrayList<>();
-                    intermediateList.add(v1);
-                    intermediateList.add(v2);
-                    intermediateList.add(key);
-                    resultantList.add(intermediateList);
-
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length - 2; i++) {
+            if(i > 0 && nums[i] == nums[i - 1]) continue;
+            int n1 = nums[i];
+            int left = i + 1, right = nums.length - 1;
+            while (left < right) {
+                int n2 = nums[left];
+                int n3 = nums[right];
+                int sum = n2 + n3 + n1;
+                if(sum == 0) {
+                    List<Integer> intermediate = new ArrayList<>(3);
+                    while(left < right && nums[left] == nums[left + 1]) ++left;
+                    while(right > left && nums[right] == nums[right - 1]) --right;
+                    intermediate.add(n1);
+                    intermediate.add(n2);
+                    intermediate.add(n3);
+                    result.add(intermediate);
+                    ++left;
+                    --right;
+                } else if (sum > 0) {
+                    --right;
                 } else {
-                    countGroup.computeIfPresent(v2, (k, v) -> v + 1);
+                    ++left;
                 }
             }
-
         }
-        return new ArrayList<>(resultantList);
+        return result;
     }
 
     //Set<List<Integer>> result = new HashSet<>();
