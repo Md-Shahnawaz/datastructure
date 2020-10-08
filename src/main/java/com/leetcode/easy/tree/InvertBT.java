@@ -26,6 +26,25 @@ public class InvertBT {
         System.out.println(result);
         System.out.println(depth(four, 1));
     }
+
+    private static void print(TreeNode node){
+        if(node == null) return;
+
+        print(node.left);
+        System.out.println(node.val);
+        print(node.right);
+
+    }
+
+    /**
+     *
+     * Given an array nums, write a function to move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+     *
+     * Example:
+     *
+     * Input: [0,1,0,3,12]
+     * Output: [1,3,12,0,0]
+     */
     //     4
     //   /   \
     //  2     7

@@ -39,7 +39,7 @@ public class WordLadder {
                         if(container.contains(newWord) && !visited.contains(newWord)){
                             queue.add(newWord);
                             visited.add(newWord);
-                            container.remove(newWord);
+//                            container.remove(newWord);
                         }
                     }
                 }
